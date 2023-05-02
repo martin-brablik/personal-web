@@ -4,7 +4,7 @@ iconv_set_encoding("internal_encoding", "UTF-8");
 
     $to = "postmaster@martinbrablik.cz";
     $token = $_POST["g-recaptcha-response"];
-    $secret = "6LdZDj0jAAAAAFGmobOXoX462ZH6xg83RjWL3gcO";
+    $secret = "";
     $ip = $_SERVER['REMOTE_ADDR'];
     $url = "https://www.google.com/recaptcha/api/siteverify?secret=".$secret."&response=".$token."&remoteip=".$ip;
     $request = file_get_contents($url);
