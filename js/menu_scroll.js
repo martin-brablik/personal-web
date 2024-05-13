@@ -39,9 +39,13 @@ function setActiveSection() {
         navigation.forEach(l => markActive(l, false));
         markActive(navigation[4], true);
     }
-    else if(posY >= sectionAnchors[5]) {
+    else if(posY >= sectionAnchors[5] && posY < sectionAnchors[6]) {
         navigation.forEach(l => markActive(l, false));
         markActive(navigation[5], true);
+    }
+    else if(posY >= sectionAnchors[6]) {
+        navigation.forEach(l => markActive(l, false));
+        markActive(navigation[6], true);
     }
     
 }

@@ -112,6 +112,27 @@ nav {
     width: auto;
 }
 
+progress[value] {
+    -webkit-appearance:none;
+    -moz-appearance:none;        
+    appearance: none;
+    margin: 0 1em;
+}
+
+progress[value]::-moz-progress-bar {
+    border-radius: 10em;
+    background: #22CB5C;
+  }
+
+progress[value]::-webkit-progress-bar {
+    border-radius: 10em;
+    background: lightgray;
+  }
+  progress[value]::-webkit-progress-value {
+    border-radius: 10em;
+    background: #22CB5C;
+  }
+
 #header-links {
     display: flex;
     flex-flow: row wrap;
@@ -126,6 +147,10 @@ section.buffer-zone {
 
 section#home {
     background-image: linear-gradient(90deg, #FCFCFE, #FCFCFE 25%, #FFFFFF 25%, #FFFFFF 50%, #FCFCFE 50%, #FCFCFE);
+}
+
+.text-left {
+    text-align: left;
 }
 
 h1 {
@@ -159,13 +184,16 @@ h5, h6 {
 
 header, section {
     grid-column: 2;
-    min-height: 100vh;
     position: relative;
     overflow: hidden;
 }
 
 section {
     padding-bottom: 2em;
+}
+
+section#home {
+    min-height: 100vh;
 }
 
 footer {
@@ -190,6 +218,10 @@ footer > p {
     top: 50%;
     transform: translateY(-50%);
     width: fit-content;
+}
+
+.vertical-text-align-center {
+    vertical-align: middle;
 }
 
 .flex-row {
@@ -233,6 +265,10 @@ footer > p {
 
 .max-width {
     max-width: 100%;
+}
+
+.max-width-content {
+    width: max-content;
 }
 
 .stretch-horizontal {
@@ -286,6 +322,12 @@ footer > p {
 .image-description > img {
     max-width: 80px;
     margin-bottom: 0.75em;
+}
+
+.image-before {
+    aspect-ratio: 1/1;
+    width: 1em;
+    margin-right: 0.5em;
 }
 
 .vertical-listing {
@@ -400,6 +442,25 @@ input:focus, textarea:focus {
     color: #22CB5C;
 }
 
+.br500 {
+    display: none;
+}
+
+.logo-top-left {
+    background-image: url("/images/sensio.png");
+    background-repeat: no-repeat;
+    background-position: 20px 20px;
+    background-size: 3em;
+}
+
+
+
+@media screen and (max-width: 500px) {
+    .br500 {
+        display: inline;
+    }
+}
+
 @media (orientation: landscape) and (min-height: 450px) {
     body {
         grid-template-columns: 90px minmax(0, 1fr);
@@ -490,14 +551,36 @@ input:focus, textarea:focus {
     }
 }
 
-@media screen and (min-width: 1333px) {
+.success {
+    color: green;
+}
+
+.fail {
+    color: red;
+}
+
+.skill {
+    font-size: larger;
+    width: 6ch;
+    display: inline-block;
+    text-align: left;
+}
+
+@media screen and (min-width: 1280px) {
     section#home {
-        background-image: url(../images/main_avatar.png), linear-gradient(90deg, #FCFCFE, #FCFCFE 25%, #FFFFFF 25%, #FFFFFF 50%, #FCFCFE 50%, #FCFCFE);
+        background-image: url(../images/screen_sm.png), linear-gradient(90deg, #FCFCFE, #FCFCFE 25%, #FFFFFF 25%, #FFFFFF 50%, #FCFCFE 50%, #FCFCFE);
         background-position-x: 80%;
-        background-position-y: bottom;
+        background-position-y: 50%;
         background-repeat: no-repeat;
     }
 }
+
+@media screen and (min-width: 1920px) {
+    section#home {
+        background-image: url(../images/screen.png), linear-gradient(90deg, #FCFCFE, #FCFCFE 25%, #FFFFFF 25%, #FFFFFF 50%, #FCFCFE 50%, #FCFCFE);
+    }
+}
+
 
 @media screen and (max-width: 567px) {
     .divider {
