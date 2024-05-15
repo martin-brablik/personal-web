@@ -2,44 +2,62 @@
 
 iconv_set_encoding("internal_encoding", "UTF-8");	
 
-    $to = "postmaster@martinbrablik.cz";
-    $token = $_POST["g-recaptcha-response"];
-    $secret = "";
+    $to = "br.martin1@email.cz";
+    $from = $_POST["contact-email"];
+    $name = $_POST["contact-name"];
+    $subject = $_POST["contact-subject"];
+    $message = $_POST["contact-message"];
+    $g_token = $_POST["g-recaptcha-response"];
+    $g_secret = "";
     $ip = $_SERVER['REMOTE_ADDR'];
-    $url = "https://www.google.com/recaptcha/api/siteverify?secret=".$secret."&response=".$token."&remoteip=".$ip;
-    $request = file_get_contents($url);
-    $response = json_decode($request);
+    $g_url = "https://www.google.com/recaptcha/api/siteverify?secret=".$g_secret."&response=".$g_token."&remoteip=".$ip;
+    $g_request = file_get_contents($g_url);
+    $g_response = json_decode($g_request);
 
-    if($response->success == 1) {
+    if($g_response->success == 1) {
 
-        if(!isset($_POST["contact-name"])) {
+        if(!isset($name)) {
             echo "<span>Invalid value for Name</span>";
             exit();
         }
 
-        if(!isset($_POST["contact-email"])) {
+        if(!isset($from)) {
             echo "<span>Invalid value for Email</span>";
             exit();
         }
 
-        if(!isset($_POST["contact-subject"])) {
+        if(!isset($subject)) {
             echo "<span>Invalid value for Subject</span>";
             exit();
         }
 
-        if(!isset($_POST["contact-message"])) {
+        if(!isset($message)) {
             echo "<span>Invalid value for Message</span>";
             exit();
         }
 
-        $headers = "from: \n".$_POST["contact-email"];
+        $url = "https://api.sendgrid.com/v3/mail/send";
+        $data = "{\"personalizations\": [{\"to\": [{\"email\": \"martin.brablik@sensio.cz\"}]}], \"from\": {\"email\": \"$to\"}, \"subject\": \"$name - $subject\", \"content\": [{\"type\": \"text/plain\", \"value\": \"Reply to: $from $message\"}]}";
+        $curl = curl_init($url);
+        
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            "Content-Type: application/json",
+            "Authorization: Bearer ",
+        ));
+        
+        $response = curl_exec($curl);
 
-        if(mail(utf8_decode($to), utf8_decode($_POST["contact-subject"]), utf8_decode($_POST["contact-email"] . ' says:' . "\r\n" . $_POST["contact-message"]), utf8_decode($headers))) {
-            echo "<span style=\"color: #22CB5C;\">Message sent successfully!</span>";
+        if($response !== false) {
+            echo "<span style=\"color: green;\">Message sent successfully</span>";
+            curl_close($curl);
             exit();
         }
         else {
-            echo "<span style=\"color: red;\">Your message could not be sent</span>";
+            echo "<span style=\"color: red;\">Message could not be sent</span>";
+            curl_close($curl);
             exit();
         }
     }
